@@ -20,8 +20,10 @@ use App\Filament\Resources\DepartmentResource\RelationManagers;
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
+    //
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
+    protected static ?string $navigationGroup = 'Campus Management';
     protected static ?int $navigationSort = 3;
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
 
 
     public static function form(Form $form): Form
@@ -31,9 +33,9 @@ class DepartmentResource extends Resource
                 Card::make()
                 ->schema([
                     Select::make('faculty_id')
-                        ->relationship('faculty','faculty_name'),
-                    TextInput::make('department_name'),
-                    TextInput::make('extension'),
+                        ->relationship('faculty','faculty_name')->required(),
+                    TextInput::make('department_name')->required(),
+                    TextInput::make('extension')->required(),
                 ])
             ]);
     }
@@ -42,9 +44,9 @@ class DepartmentResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('faculty.faculty_name')->sortable()->searchable(),
-                TextColumn::make('department_name')->sortable()->searchable(),
-                TextColumn::make('extension')->sortable()
+                TextColumn::make('faculty.faculty_name')->label('Faculty Name')->sortable()->searchable(),
+                TextColumn::make('department_name')->label('Department Name')->sortable()->searchable(),
+                TextColumn::make('extension')->label('Extension')->sortable()
             ])
             ->filters([
                 //

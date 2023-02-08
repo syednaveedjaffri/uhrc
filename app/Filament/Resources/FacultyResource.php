@@ -3,25 +3,29 @@
 namespace App\Filament\Resources;
 
 use Filament\Forms;
-use Filament\Tables;
+// use Filament\Tables;
 use App\Models\Faculty;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\DeleteBulkAction;
 use App\Filament\Resources\FacultyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\FacultyResource\RelationManagers;
+use App\Filament\Resources\FacultyResource\RelationManagers\FacultyRelationManager;
 
 class FacultyResource extends Resource
 {
     protected static ?string $model = Faculty::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationGroup = 'Campus Management';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
@@ -31,8 +35,9 @@ class FacultyResource extends Resource
                 Card::make()
                 ->schema([
                     Select::make('campus_id')
-                        ->relationship('campus', 'campus_name'),
-                    TextInput::make('faculty_name'),
+                        ->relationship('campus', 'campus_name')
+                        ->required(),
+                    TextInput::make('faculty_name')->required(),
                     // TextInput::make('extension')->hidden(), TO SEE THE EXTNSION FOM DEPARTMENT TABLE
                 ])
             ]);
@@ -43,25 +48,25 @@ class FacultyResource extends Resource
         return $table
             ->columns([
 
-                TextColumn::make('campus.campus_name')->sortable()->searchable(),
-                TextColumn::make('faculty_name')->sortable()->searchable(),
-                // TextColumn::make('departments.extension')->sortable()->searchable()::"ITS working" TO SEE THE EXTENSION FROM DEPARTMENT TABLE THROUGH hasMANY RELATIONSHIP
+                TextColumn::make('campus.campus_name')->label('Campus Name')->sortable()->searchable(),
+                TextColumn::make('faculty_name')->label('Faculty Name')->sortable()->searchable(),
+                // TextColumn::make('departments.extension')->sortable()->searchable()      "ITS working" TO SEE THE EXTENSION FROM DEPARTMENT TABLE THROUGH hasMANY RELATIONSHIP
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+               DeleteBulkAction::make(),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            FacultyRelationManager::class,
         ];
     }
 

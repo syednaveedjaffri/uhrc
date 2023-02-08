@@ -32,8 +32,9 @@ class ComplainResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    Select::make('user_id')
-                        ->relationship('user','name'),
+                    // Select::make('user_id')
+                    //     ->relationship('user','name'),
+
                     TextInput::make('complain_type')->required()->maxLength(255),
                     // TextInput::make('extension')->hidden()
                 ])
@@ -44,7 +45,7 @@ class ComplainResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('user.name')->sortable()->searchable(),
+                TextColumn::make('users.name')->sortable()->searchable(),
                 TextColumn::make('complain_type')->sortable()->searchable(),
                 // TextColumn::make('department.extension')
 

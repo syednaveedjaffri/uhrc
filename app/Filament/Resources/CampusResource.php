@@ -16,13 +16,17 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\CampusResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CampusResource\RelationManagers;
+use App\Filament\Resources\CampusResource\RelationManagers\CampusRelationManager;
 
 class CampusResource extends Resource
 {
     protected static ?string $model = Campus::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
-    protected static ?int $navigationSort = 1;
+    protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
+    protected static ?string $navigationGroup = 'Campus Management';
+
+
+    // protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -30,7 +34,7 @@ class CampusResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    TextInput::make('campus_name')
+                    TextInput::make('campus_name')->required()
                 ])
 
             ]);
@@ -40,7 +44,7 @@ class CampusResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('campus_name')->sortable()->searchable()
+                TextColumn::make('campus_name')->label('Campus Name')->sortable()->searchable()
             ])
             ->filters([
                 //
@@ -56,7 +60,7 @@ class CampusResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            CampusRelationManager::class,
         ];
     }
 

@@ -18,6 +18,9 @@ class Department extends Model
     {
         return $this->belongsTo(Faculty::class,'faculty_id','id');
     }
-
+    public function emp()
+    {
+        return $this->hasMany(Employee::class,'department_id','id');
+    }
 
 }
