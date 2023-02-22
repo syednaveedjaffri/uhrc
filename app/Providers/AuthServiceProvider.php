@@ -30,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         Employee::class => EmployeePolicy::class,
         Faculty::class => FacultyPolicy::class,
         Query::class => QueryPolicy::class,
+        Vendor::class => VendorPolicy::class,
 
 
     ];

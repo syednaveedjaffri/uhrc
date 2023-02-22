@@ -19,16 +19,11 @@ return new class extends Migration
             $table->foreignId('campus_id')->constrained()->cascadeOnDelete();
             $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
             $table->foreignId('department_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('complain_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('vendor_id')->constrained()->cascadeOnDelete();
-            // $table->boolean('pending')->default('1')->comment('0 means pending, 1 means done');
-            $table->string('pending')->default('0')->comment('0 means pending, 1 means Resolved');
-            $table->string('status')->default('lab')->comment('0 in Lab, 1 goes to vendor');
-            // $table->string('status')->default('lab')->comment('0 in Lab, 1 goes to vendor');
-            // $table->string('description')->nullable();
-            // $table->timestamp('deleivered')->nullable();
+            $table->string('status')->default('pending');
+            $table->date('send_to_vendor')->nullable();
+            $table->date('send_to_dept')->nullable();
+            $table->date('received_from_vendor')->nullable();
             $table->timestamps();
         });
     }

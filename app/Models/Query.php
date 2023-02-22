@@ -9,7 +9,7 @@ class Query extends Model
 {
     use HasFactory;
     protected $fillable = ['
-    id','campus_id','faculty_id','department_id','complain_id','user_id','employee_id','username'];
+    id','campus_id','faculty_id','department_id','complain_id','user_id','employee_id','username','status','send_to_vendor','send_to_dept','received_from_vendor',];
 
     // protected $fillable=['
     // id','campus_id','user_id','faculty_id','department_id','vendor_id','complain_id'];
