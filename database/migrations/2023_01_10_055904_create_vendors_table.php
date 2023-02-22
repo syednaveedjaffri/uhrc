@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->date('send_to_vendor')->nullable();
+            $table->foreignId('reasons')->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -18,8 +18,8 @@ class Vendor extends Model
         'city',
         'state',
     ];
-    public function lab()
+    public function reason()
     {
-        return $this->belongsTo(Lab::class);
+        return $this->hasOne(Reason::class);
     }
 }

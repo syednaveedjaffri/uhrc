@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\CampusSeeder;
+use Database\Seeders\VendorSeeder;
 use Database\Seeders\FacultySeeder;
 use Database\Seeders\DepartmentSeeder;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([DepartmentSeeder::class]);
         $this->call([EmployeeSeeder::class]);
         $this->call([ComplainSeeder::class]);
+        $this->call([VendorSeeder::class]);
 
         // \App\Models\User::factory(10)->create();
 

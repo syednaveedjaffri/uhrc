@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
- use Illuminate\Support\Facades\Gate;
+use App\Models\Campus;
+use Illuminate\Support\Facades\Gate;
 
 use App\Models\User;
 use App\Policies\RolePolicy;
@@ -23,6 +24,14 @@ class AuthServiceProvider extends ServiceProvider
         Permission::class => PermissionPolicy::class,
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
+        Campus::class =>CamulusPolicy::class,
+        Complaint::class =>ComplaintPolicy::class,
+        Department::class => DepartmentPolicy::class,
+        Employee::class => EmployeePolicy::class,
+        Faculty::class => FacultyPolicy::class,
+        Query::class => QueryPolicy::class,
+
+
     ];
 
     /**
