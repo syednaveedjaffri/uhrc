@@ -30,7 +30,7 @@ class QueryPolicy
      */
     public function view(User $user, Query $query)
     {
-        return $user->hasRole(['super-admin','admin']);
+        // return $user->hasRole(['super-admin','admin']);
     }
 
     /**

@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
         Campus::class =>CamulusPolicy::class,
-        Complaint::class =>ComplaintPolicy::class,
+        Complain::class =>ComplainPolicy::class,
         Department::class => DepartmentPolicy::class,
         Employee::class => EmployeePolicy::class,
         Faculty::class => FacultyPolicy::class,

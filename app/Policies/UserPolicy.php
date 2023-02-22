@@ -19,17 +19,17 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        // return $user->hasAnyRole('super-admin','admin','user','misc');
+        return $user->hasAnyRole('super-admin','admin','user');
         // if($user->hasPermissionTo('read: user'))
         // {
         //     return true;
         // }
         //     return false;
-        if($user->hasPermissionTo('read: admin'))
-        {
-            return true;
-        }
-            return false;
+        // if($user->hasPermissionTo('read: admin'))
+        // {
+        //     return true;
+        // }
+        //     return false;
 
         // if($user->hasPermissionTo('read: user'))
         // {
@@ -67,13 +67,13 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        // return $user->hasRole(['super-admin','admin']);
+        return $user->hasRole(['super-admin','admin']);
         // if($user->hasPermissionTo('create: user'))
-        if($user->hasPermissionTo('statusupdate'))
-        {
-            return true;
-        }
-            return false;
+        // if($user->hasPermissionTo('statusupdate'))
+        // {
+        //     return true;
+        // }
+        //     return false;
     }
 
     /**

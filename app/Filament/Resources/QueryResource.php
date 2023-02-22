@@ -92,8 +92,8 @@ class QueryResource extends Resource
                     }),
                     Select::make('complain_id')
                     ->relationship('complain','complain_type'),
-                TextInput::make('pending')->disabled(),
-                TextInput::make('status')->disabled()
+
+                TextInput::make('status'),
 
 
 
@@ -152,7 +152,7 @@ class QueryResource extends Resource
                 // TextColumn::make('status')->disabled()
                 // ViewColumn::make('pending')->view('filament.tables.columns.pending'),
 
-                ToggleColumn::make('pending'),
+
                 ToggleColumn::make('status')
 
 
