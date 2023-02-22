@@ -13,11 +13,17 @@ use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\Layout\View;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Forms\Components\BelongsToSelect;
 use App\Filament\Resources\FacultyResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\FacultyResource\RelationManagers;
+use App\Filament\Resources\FacultyResource\Pages\EditFaculty;
+use App\Filament\Resources\FacultyResource\Pages\CreateFaculty;
+use App\Filament\Resources\FacultyResource\Pages\ListFaculties;
+use Illuminate\Database\Eloquent\Factories\BelongsToRelationship;
 use App\Filament\Resources\FacultyResource\RelationManagers\FacultyRelationManager;
 
 class FacultyResource extends Resource
@@ -49,6 +55,7 @@ class FacultyResource extends Resource
             ->columns([
 
                 TextColumn::make('campus.campus_name')->label('Campus Name')->sortable()->searchable(),
+
                 TextColumn::make('faculty_name')->label('Faculty Name')->sortable()->searchable(),
                 // TextColumn::make('departments.extension')->sortable()->searchable()      "ITS working" TO SEE THE EXTENSION FROM DEPARTMENT TABLE THROUGH hasMANY RELATIONSHIP
             ])
@@ -66,7 +73,7 @@ class FacultyResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FacultyRelationManager::class,
+            FacultyRelationManager::class
         ];
     }
 
@@ -78,4 +85,5 @@ class FacultyResource extends Resource
             'edit' => Pages\EditFaculty::route('/{record}/edit'),
         ];
     }
+
 }

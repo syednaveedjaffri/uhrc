@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Campus;
+use Illuminate\View\View;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
@@ -17,10 +18,13 @@ use App\Filament\Resources\CampusResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CampusResource\RelationManagers;
 use App\Filament\Resources\CampusResource\RelationManagers\CampusRelationManager;
+use Filament\Tables\Columns\ColorColumn;
 
 class CampusResource extends Resource
 {
     protected static ?string $model = Campus::class;
+    // protected static bool $shouldRegisterNavigation = false;
+    protected static ?string $activeNavigationIcon = 'heroicon-o-annotation';
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationGroup = 'Campus Management';
@@ -34,7 +38,8 @@ class CampusResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    TextInput::make('campus_name')->required()
+                    TextInput::make('campus_name')->required(),
+                    // ColorColumn::make('color')
                 ])
 
             ]);
@@ -60,9 +65,13 @@ class CampusResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CampusRelationManager::class,
+
         ];
     }
+//     public function getTableContent(): ?View
+// {
+//     return view('notes');
+// }
 
     public static function getPages(): array
     {

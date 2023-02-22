@@ -28,4 +28,9 @@ class Campus extends Model
     {
         return $this->hasMany(Employee::class);
     }
+    public function labs()
+    {
+        return $this->hasMany(Campus::class);
+    }
+
 }

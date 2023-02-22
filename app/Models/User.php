@@ -6,15 +6,20 @@ namespace App\Models;
 use App\Models\Campus;
 use App\Models\Complain;
 use Laravel\Sanctum\HasApiTokens;
+use Filament\Models\Contracts\HasName;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasName
+//  implements FilamentUser    OK HAE
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -23,8 +28,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'is_admin',
         'email',
-        'designation',
         'password',
 
     ];
@@ -47,10 +52,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-public function users()
-{
-    return $this->hasMany(complain::class);
-}
+// public function users()
+// {
+//     return $this->hasMany(complain::class,'user_id','id');
+// }
+// public function canAccessFilament(): bool
+//     {
+//         return str_ends_with($this->email, '@gmail.com');
 
+//     }
+
+    // public function canAccessFilament():bool
+    //     {
+    //         return $this->hasRole(['super-admin','admin','user','moderator','developer']);
+
+    //     }
+
+    public function getFilamentName(): string
+        {
+            //
+            return $this->name;
+            //  return "{$this->name}";
+
+            // return "{$this->first_name} {$this->last_name}";
+        }
 
 }

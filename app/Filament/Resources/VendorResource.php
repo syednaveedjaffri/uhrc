@@ -19,6 +19,7 @@ class VendorResource extends Resource
     // protected static ?int $navigationSort = 6;
     protected static ?string $navigationIcon = 'heroicon-o-collection';
     // protected static ?int $navigationSort = 2;
+    // protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

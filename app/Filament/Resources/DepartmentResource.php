@@ -35,7 +35,8 @@ class DepartmentResource extends Resource
                     Select::make('faculty_id')
                         ->relationship('faculty','faculty_name')->required(),
                     TextInput::make('department_name')->required(),
-                    TextInput::make('extension')->required(),
+                    // TextInput::make('extension')->required(),
+                    // TextColumn::make('extension')->label('Extension')
                 ])
             ]);
     }
@@ -46,7 +47,7 @@ class DepartmentResource extends Resource
             ->columns([
                 TextColumn::make('faculty.faculty_name')->label('Faculty Name')->sortable()->searchable(),
                 TextColumn::make('department_name')->label('Department Name')->sortable()->searchable(),
-                TextColumn::make('extension')->label('Extension')->sortable()
+                // TextColumn::make('extension')->label('Extension')
             ])
             ->filters([
                 //

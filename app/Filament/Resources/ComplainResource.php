@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
-use Filament\Tables;
+// use Filament\Forms;
+// use Filament\Tables;
 use App\Models\Complain;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
@@ -11,19 +11,25 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Illuminate\Contracts\Auth\Authenticatable;
 use App\Filament\Resources\ComplainResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ComplainResource\RelationManagers;
-use Illuminate\Contracts\Auth\Authenticatable;
+use App\Filament\Resources\ComplainResource\RelationManagers\EmployeeRelationManager;
+use Filament\Tables\Columns\ToggleColumn;
 
 class ComplainResource extends Resource
 {
     protected static ?string $model = Complain::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-annotation';
     protected static ?int $navigationSort = 4;
 
     public static function form(Form $form): Form
@@ -32,11 +38,18 @@ class ComplainResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    // Select::make('user_id')
-                    //     ->relationship('user','name'),
+                    // Select::make('employee_id')
+                    //     ->relationship('complain','employee_name'),
 
-                    TextInput::make('complain_type')->required()->maxLength(255),
-                    // TextInput::make('extension')->hidden()
+                    // ->createOptionForm([
+                        TextInput::make('complain_type')
+
+                        ->required(),
+
+
+
+
+
                 ])
             ]);
     }
@@ -45,26 +58,30 @@ class ComplainResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('users.name')->sortable()->searchable(),
+                // TextColumn::make('complain.employee_name')->label('Employee Name')->sortable()->searchable(),
                 TextColumn::make('complain_type')->sortable()->searchable(),
-                // TextColumn::make('department.extension')
+                // TextColumn::make('complain.extension')->label('Extension'),
+
+                // ToggleColumn::make('complains.status')->label('status')
 
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make(),
+                DeleteAction::make(),
+                // ViewAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\DeleteBulkAction::make(),
+                DeleteBulkAction::make(),
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

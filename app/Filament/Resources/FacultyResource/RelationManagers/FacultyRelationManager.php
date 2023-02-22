@@ -2,32 +2,25 @@
 
 namespace App\Filament\Resources\FacultyResource\RelationManagers;
 
-// use Filament\Forms;
-// use Filament\Tables;
+use Filament\Forms;
 use Filament\Resources\Form;
-use Filament\Resources\Table;
-use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Resources\Forms\Components;
-use Filament\Tables\Actions\CreateAction;
-use Filament\Tables\Actions\DeleteAction;
-use Illuminate\Database\Eloquent\Builder;
-use Filament\Tables\Actions\DeleteBulkAction;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Table;
+use Filament\Tables;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class FacultyRelationManager extends RelationManager
 {
-    protected static string $relationship = 'departments';
+    protected static string $relationship = 'campus';
 
-    protected static ?string $recordTitleAttribute = 'department_name';
+    protected static ?string $recordTitleAttribute = 'campus_name';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('department_name')
+                Forms\Components\TextInput::make('campus_name')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -37,20 +30,20 @@ class FacultyRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                TextColumn::make('department_name'),
+                Tables\Columns\TextColumn::make('campus_name'),
             ])
             ->filters([
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 }

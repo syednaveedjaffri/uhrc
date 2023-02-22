@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
 
             $table->string('department_name');
-            $table->string('extension')->nullable();
+            // $table->string('extension')->nullable();
             $table->timestamps();
         });
     }

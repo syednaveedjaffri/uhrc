@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\CampusResource\RelationManagers;
+namespace App\Filament\Resources\RoleResource\RelationManagers;
 
 use Filament\Forms;
 use Filament\Resources\Form;
@@ -10,17 +10,17 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CampusRelationManager extends RelationManager
+class PermissionsRelationManager extends RelationManager
 {
-    protected static string $relationship = 'emp';
+    protected static string $relationship = 'permissions';
 
-    protected static ?string $recordTitleAttribute = 'employee_name';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('employee_name')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -30,7 +30,7 @@ class CampusRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('employee_name'),
+                Tables\Columns\TextColumn::make('name'),
             ])
             ->filters([
                 //
@@ -45,5 +45,5 @@ class CampusRelationManager extends RelationManager
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
             ]);
-    }
+    }    
 }

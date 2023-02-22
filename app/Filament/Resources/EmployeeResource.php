@@ -2,8 +2,9 @@
 
 namespace App\Filament\Resources;
 
+use App\Filament\Resources\CampusResource\RelationManagers\CampusRelationManager;
 use Filament\Forms;
-// use Filament\Tables;
+use Filament\Tables;
 use App\Models\Campus;
 use App\Models\Faculty;
 use App\Models\Employee;
@@ -48,20 +49,25 @@ class EmployeeResource extends Resource
             ->schema([
                 Card::make()
                 ->schema([
-                    Select::make('user_id')
-                    ->relationship('user', 'name'),
-                    // TextInput::make('designation'),
+                    Forms\Components\TextInput::make('employee_name')->required(),
+                    Forms\Components\TextInput::make('extension'),
 
-                    Select::make('campus_id')
-                    // ->label('Campus')
+                    Select::make('campus_id')->label('Campus Name')->placeholder('Select a Campus')
+                    ->preload()
                     ->options(Campus::all()->pluck('campus_name','id')->toArray())
                     ->required()
                     ->reactive()
+
                     ->afterStateUpdated(fn(callable $set) =>$set('faculty_id',null)),
-                    Select::make('faculty_id')
-                    // ->label('Faculty')
+
+                    Select::make('faculty_id')->label('Faculty Name')->placeholder('Select a Faculty')
+
+                    ->preload()
                     ->required()
+                    ->reactive()
+
                     ->options(function(callable $get)
+
                     {
                         $campus = Campus::find($get('campus_id'));
                         if(!$campus)
@@ -70,12 +76,13 @@ class EmployeeResource extends Resource
                         }
                         return $campus->faculties->pluck('faculty_name','id');
                     })
-                    ->required()
-                    ->reactive()
+                    // ->preload()
+                    // ->required()
+                    // ->reactive()
                     ->afterStateUpdated(fn(callable $set) =>$set('department_id',null)),
-                    Select::make('department_id')
-                    // ->label('Department')
-                    ->required()
+                    Select::make('department_id')->label('Department Name')
+
+                    // ->reactive()
                     ->options(function(callable $get)
                     {
                         $faculty = Faculty::find($get('faculty_id'));
@@ -83,15 +90,10 @@ class EmployeeResource extends Resource
                         {
                             return Department::all()->pluck('department_name', 'id');
                         }
+
                         return $faculty->departments->pluck('department_name','id');
                     })
-                    //   ->reactive()
-                    // ->afterStateUpdated(fn(callable $set)=>$set('department_id','id')),
 
-                    // textInput::make('employee_name')->required(),
-                    // textInput::make('designation')->required(),
-                    // Select::make('employee_id')
-                    // ->relationship('department','department_name')->required(),
 
 
 
@@ -107,13 +109,16 @@ class EmployeeResource extends Resource
         return $table
             ->columns([
                 // ColorColumn::make('primary'),
-                TextColumn::make('user.name')->label('User Name')->sortable()->searchable(),
+                // TextColumn::make('user.name')->label('User Name')->sortable()->searchable(),
                 // ->color('primary')
-                TextColumn::make('user.designation')->label('User Designation')->sortable()->searchable(),
+                // TextColumn::make('user.designation')->label('User Designation')->sortable()->searchable(),
                 TextColumn::make('campus.campus_name')->label('Campus Name')->sortable()->searchable(),
                 TextColumn::make('faculty.faculty_name')->label('Faculty Name')->sortable()->searchable(),
                 TextColumn::make('department.department_name')->label('Department Name')->sortable()->searchable(),
-                CheckboxColumn::make('is_admin'),
+                Tables\Columns\TextColumn::make('employee_name')->label('Employee Name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('extension')->label('Extension')->sortable()->searchable(),
+
+                // CheckboxColumn::make('is_admin'),
                 // TextColumn::make('complains.complain_id')->hidden(),
             ])
             ->filters([
@@ -131,7 +136,7 @@ class EmployeeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

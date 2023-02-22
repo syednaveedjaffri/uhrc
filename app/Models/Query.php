@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\User;
-use App\Models\Vendor;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Lab extends Model
+class Query extends Model
 {
     use HasFactory;
-    protected $fillable=['
-    id','campus_id','user_id','faculty_id','department_id','vendor_id','complain_id'];
+    protected $fillable = ['
+    id','campus_id','faculty_id','department_id','complain_id','user_id','employee_id','username'];
+
+    // protected $fillable=['
+    // id','campus_id','user_id','faculty_id','department_id','vendor_id','complain_id'];
 
     public function campus()
     {
@@ -23,7 +24,7 @@ class Lab extends Model
     }
     public function user()
         {
-            return $this->belongsTo(User::class,'user_id','id');
+            return $this->belongsTo(employee::class,'employee_id','id');
         }
     public function complain()
         {
@@ -37,5 +38,4 @@ class Lab extends Model
         {
             return $this->hasMany(Complain::class,'complain_id','id');
         }
-
-}
+    }

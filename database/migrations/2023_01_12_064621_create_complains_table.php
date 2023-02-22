@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('complains', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-
+            // $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
             $table->string('complain_type');
+            $table->string('description')->nullable();
             $table->string('serialnumber')->nullable();
             $table->text('specification')->nullable();
             $table->timestamps();

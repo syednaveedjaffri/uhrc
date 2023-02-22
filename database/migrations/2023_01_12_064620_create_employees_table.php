@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->string('employee_name');
 
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('campus_id')->constrained()->cascadeOnDelete();
             $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
             $table->foreignId('department_id')->constrained()->cascadeOnDelete();
             // $table->foreignId('complain_id')->constrained()->cascadeOnDelete();
-
+            $table->string('employee_name');
+            $table->string('extension');
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable=['id','campus_id','faculty_id','department_id','user_id'];
+    protected $fillable=['id','campus_id','faculty_id','department_id','employee_name','extension'];
 
     public function campus()
     {
@@ -31,10 +31,13 @@ class Employee extends Model
     {
         return $this->belongsTo(Department::class,'department_id','id');
     }
-    public function complains()
+    public function complaine()
         {
-            return $this->hasMany(Complain::class,'complain_id','id');
+            return $this->hasMany(Complain::class);
         }
 
-
+public function lab()
+{
+    return $this->hasOne(Query::class);
+}
 }

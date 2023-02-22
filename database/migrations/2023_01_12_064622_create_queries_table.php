@@ -13,15 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('labs', function (Blueprint $table) {
+        Schema::create('queries', function (Blueprint $table) {
             $table->id();
+            $table->string('username');
             $table->foreignId('campus_id')->constrained()->cascadeOnDelete();
             $table->foreignId('faculty_id')->constrained()->cascadeOnDelete();
             $table->foreignId('department_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
+            // $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('complain_id')->constrained()->cascadeOnDelete();
             // $table->foreignId('vendor_id')->constrained()->cascadeOnDelete();
-            $table->string('status')->default('pending');
+            // $table->boolean('pending')->default('1')->comment('0 means pending, 1 means done');
+            $table->string('pending')->default('0')->comment('0 means pending, 1 means Resolved');
+            $table->string('status')->default('lab')->comment('0 in Lab, 1 goes to vendor');
+            // $table->string('status')->default('lab')->comment('0 in Lab, 1 goes to vendor');
             // $table->string('description')->nullable();
+            // $table->timestamp('deleivered')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('labs');
+        Schema::dropIfExists('queries');
     }
 };
