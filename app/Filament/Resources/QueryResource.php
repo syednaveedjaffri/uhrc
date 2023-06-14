@@ -97,20 +97,6 @@ class QueryResource extends Resource
 
 
 
-                //    Select::make('employee_id')
-                //     ->relationship('user', 'employee_name'),
-                // Select::make('employee_id')
-                // ->relationship('user', 'employee_name'),
-                    // Select::make('campus_id')
-                    //     ->relationship('campus','campus_name'),
-                    // Select::make('faculty_id')
-                    //     ->relationship('faculty','faculty_name'),
-                    // Select::make('department_id')
-                    //     ->relationship('department','department_name'),
-                    //     Select::make('complain_id')
-                    //     ->relationship('complain','complain_type'),
-                    // TextInput::make('pending'),
-                    // TextInput::make('status'),
 
 
                     //     Toggle::make('pending')
@@ -140,9 +126,6 @@ class QueryResource extends Resource
         return $table
             ->columns([
 
-                // TextColumn::make('user.employee_name'),
-                // TextColumn::make('campus.campus_name'),
-                // TextColumn::make('username')->label('User Name'),
                 TextColumn::make('username')->label('Name'),
                 TextColumn::make('faculty.faculty_name')->sortable()->searchable(),
                 TextColumn::make('department.department_name')->sortable()->searchable(),
