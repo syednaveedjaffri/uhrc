@@ -2,13 +2,37 @@
 
 namespace App\Filament\Resources\QueryResource\Pages;
 
-use App\Filament\Resources\QueryResource;
+use App\Models\Query;
 use Filament\Pages\Actions;
+use Illuminate\Support\Facades\Auth;
+use App\Filament\Resources\QueryResource;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 
 class ListQueries extends ListRecords
 {
     protected static string $resource = QueryResource::class;
+
+    protected function getTableQuery(): Builder
+    {
+        return Query::query()->latest();
+        $role = Auth::user()->roles()->first();
+        if($role->name === 'user')
+        {
+            return parent::getTableQuery()->where('user_id', auth()->user()->id);
+        }
+
+        else
+        {
+            return parent::getTableQuery();
+        }
+
+    }
+     //OR
+    //  public static function getEloquentQuery(): Builder
+    //  {
+    //      return parent::getEloquentQuery()->withoutGlobalScopes([ActiveScope::class]);
+    //  }
 
     protected function getActions(): array
     {
@@ -20,4 +44,12 @@ class ListQueries extends ListRecords
     {
         return $this->getResource()::getUrl('index');
     }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->id();
+
+        return $data;
+    }
+
+
 }

@@ -19,11 +19,15 @@ class UserSeeder extends Seeder
             [   'name'=>'admin',
                 'designation' => 'IT',
                 'email'=>'admin@gmail.com',
-                'password'=>bcrypt('12345678')],
-            [   'name'=>'ali',
+                'password'=>bcrypt('12345678'),
+                'is_admin' => true,
+                'ip_address' => ''],
+            [   'name'=>'test',
                 'designation' => 'Office Admin',
-                'email'=>'ali@gmail.com',
-                'password'=>bcrypt('12345678')],
+                'email'=>'test@gmail.com',
+                'password'=>bcrypt('12345678'),
+                'is_admin' => false,
+                'ip_address' => ''],
         ]);
     }
 }

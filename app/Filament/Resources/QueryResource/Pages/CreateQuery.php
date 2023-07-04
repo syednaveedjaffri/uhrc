@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\QueryResource\Pages;
 
-use App\Filament\Resources\QueryResource;
+use App\Models\User;
 use Filament\Pages\Actions;
+use App\Filament\Resources\QueryResource;
+use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\CreateRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class CreateQuery extends CreateRecord
 {
@@ -18,4 +21,13 @@ class CreateQuery extends CreateRecord
     {
         return 'Your Query is submitted successfully';
     }
+
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->id();
+
+        return $data;
+    }
+
+
 }

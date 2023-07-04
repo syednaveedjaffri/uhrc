@@ -2,7 +2,7 @@
 
 return [
 
-    'title' => 'Login',
+    'title' => 'Log in',
 
     'heading' => 'Sign in to your account',
 

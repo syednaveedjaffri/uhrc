@@ -10,16 +10,18 @@ class Vendor extends Model
     use HasFactory;
 
     protected $fillable = [
-        'vandor_name',
         'company_name',
-        'address',
+        'vendor_name',
         'email',
         'phone',
+        'address',
         'city',
         'state',
+        'send_to_vendor',
+        'received_from_vendor'
     ];
-    public function reason()
+    public function queries()
     {
-        return $this->hasOne(Reason::class);
+        return $this->hasMany(Query::class);
     }
 }

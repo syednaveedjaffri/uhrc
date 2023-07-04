@@ -17,4 +17,10 @@ class CreateUser extends CreateRecord
     {
         return 'User is Registered';
     }
+
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
+    //     $data['ip_address'] = request()->ip();
+    //     return $data;
+    // }
 }

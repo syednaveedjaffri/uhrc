@@ -2,9 +2,16 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
-use App\Filament\Resources\UserResource;
+use Filament\Pages\Page;
 use Filament\Pages\Actions;
+
+use Illuminate\Support\Facades\Hash;
+use App\Filament\Resources\UserResource;
+use Filament\Forms\Components\TextInput;
+use Filament\Pages\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Validation\Rules\Password;
+use Filament\Resources\Pages\CreateRecord;
 
 class EditUser extends EditRecord
 {
@@ -14,6 +21,9 @@ class EditUser extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+            Actions\ForceDeleteAction::make(),
+            Actions\RestoreAction::make(),
+
         ];
     }
     protected function getRedirectUrl(): string

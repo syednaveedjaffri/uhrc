@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements HasName
-//  implements FilamentUser    OK HAE
+class User extends Authenticatable implements HasName ,FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
@@ -31,6 +30,9 @@ class User extends Authenticatable implements HasName
         'is_admin',
         'email',
         'password',
+        // 'designation',
+        'ip_address',
+
 
     ];
 
@@ -62,11 +64,13 @@ class User extends Authenticatable implements HasName
 
 //     }
 
-    // public function canAccessFilament():bool
-    //     {
-    //         return $this->hasRole(['super-admin','admin','user','moderator','developer']);
+    public function canAccessFilament():bool
+        {
+            return $this->hasRole(['super-admin','admin','user','moderator','developer','viewonly']);
 
-    //     }
+            // return str_ends_with($this->email,'@uvas.com');
+
+        }
 
     public function getFilamentName(): string
         {
@@ -76,5 +80,9 @@ class User extends Authenticatable implements HasName
 
             // return "{$this->first_name} {$this->last_name}";
         }
+    public function queries()
+    {
+        return $this->hasMany(Query::class);
+    }
 
 }

@@ -19,7 +19,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole('super-admin','admin','user');
+        return $user->hasAnyRole('super-admin','admin');
         // if($user->hasPermissionTo('read: user'))
         // {
         //     return true;

@@ -2,49 +2,44 @@
 
 namespace App\Policies;
 
-use App\Models\Employee;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use App\Models\User;
+use App\Models\Complaincategory;
 
-class EmployeePolicy
+class ComplaincategoryPolicy
 {
-    // protected static bool $shouldRegisterNavigation = false;
     use HandlesAuthorization;
 
-    /**
+  /**
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
-
      */
     public function viewAny(User $user)
     {
-
         return $user->hasRole(['super-admin','admin']);
+        // if($user->hasPermissionTo(''))
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Employee $employee)
+    public function view(User $user, Complaincategory $complaincategory)
     {
-        if($user->hasRole('super-admin','admin'))
-        {
-            return true;
-        }
-        return false;
-        // return $user->hasRole(['user']);
+        return $user->hasRole(['super-admin','admin']);
     }
 
     /**
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user)
@@ -56,10 +51,10 @@ class EmployeePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Employee $employee)
+    public function update(User $user, Complaincategory $complaincategory)
     {
         return $user->hasRole(['super-admin','admin']);
     }
@@ -68,10 +63,10 @@ class EmployeePolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Employee $employee)
+    public function delete(User $user, Complaincategory $complaincategory)
     {
         return $user->hasRole(['super-admin','admin']);
     }
@@ -80,10 +75,10 @@ class EmployeePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Employee $employee)
+    public function restore(User $user, Complaincategory $complaincategory)
     {
         return $user->hasRole(['super-admin','admin']);
     }
@@ -92,10 +87,10 @@ class EmployeePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Employee  $employee
+     * @param \App\Models\Complaincategory $complaincategory;
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Employee $employee)
+    public function forceDelete(User $user, Complaincategory $complaincategory)
     {
         return $user->hasRole(['super-admin','admin']);
     }

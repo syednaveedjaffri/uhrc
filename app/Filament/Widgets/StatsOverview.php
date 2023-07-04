@@ -2,23 +2,38 @@
 
 namespace App\Filament\Widgets;
 
-use Filament\Widgets\StatsOverviewWidget as BaseWidget;
+use auth;
+use App\Models\User;
+use App\Models\Query;
+use App\Models\Campus;
+use App\Models\Department;
+use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget\Card;
+use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class StatsOverview extends BaseWidget
 {
+
+    protected static ?int $sort = 3;
+
+    public static function canView(): bool
+    {
+        return auth()->user()->hasRole(['super-admin','admin']);
+    }
+
     protected function getCards(): array
     {
+
         return [
-            Card::make('Unique views', '192.1k')
-            ->description('32k increase')
-            ->descriptionIcon('heroicon-s-trending-up'),
-        Card::make('Bounce rate', '21%')
-            ->description('7% increase')
-            ->descriptionIcon('heroicon-s-trending-down'),
-        Card::make('Average time on page', '3:12')
-            ->description('3% increase')
-            ->descriptionIcon('heroicon-s-trending-up'),
+            Card::make('Total Queries', Query::count()),
+
+        Card::make('Total Users', User::count()),
+        // Card::make('Total Departments', Department::count()),
+        // Card::make('Campus', Campus::count()),
+
+
         ];
     }
+
+
 }
