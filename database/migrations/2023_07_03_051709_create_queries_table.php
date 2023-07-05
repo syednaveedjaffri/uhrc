@@ -21,19 +21,18 @@ return new class extends Migration
             $table->foreignId('department_id')->constrained()->cascadeOnDelete();
             $table->foreignId('complaincategory_id')->constrained()->cascadeOnDelete();
             $table->foreignId('complaincategorytype_id')->constrained()->cascadeOnDelete();
-            // $table->foreignId('complain_id')->constrained()->cascadeOnDelete();
+
             $table->string('complain_description')->nullable();
             $table->string('extension')->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('vendor_id')->nullable();
-            // $table->boolean('status')->default('0');
+
             $table->string('status')->default('inprocess');
-            // $table->string('vendor_status')->default('pending');
-            // $table->date('send_to_vendor')->nullable();
+
             $table->date('send_to_dept')->nullable();
             $table->date('send_to_vendor')->nullable();
             $table->date('received_from_vendor')->nullable();
-            $table->softDeletes();
+            // $table->softDeletes();
             $table->timestamps();
         });
     }

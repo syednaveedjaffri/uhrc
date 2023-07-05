@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use Closure;
 use Carbon\Carbon;
+use App\Models\User;
 use Filament\Tables;
 use App\Models\Query;
 use App\Models\Faculty;
@@ -12,8 +13,8 @@ use App\Models\Department;
 use Filament\Resources\Form;
 use Filament\Resources\Table;
 use Filament\Resources\Resource;
-use Filament\Forms\Components\Card;
 
+use Filament\Forms\Components\Card;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\Layout;
 use App\Models\Complaincategorytype;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Forms\Components\DatePicker;
@@ -30,15 +32,14 @@ use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Filters\SelectFilter;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Filament\Forms\Components\DateTimePicker;
+use AlperenErsoy\FilamentExport\FilamentExport;
 use App\Filament\Resources\QueryResource\Pages;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Factories\Relationship;
 use Illuminate\Database\Console\Migrations\StatusCommand;
 use App\Filament\Resources\QueryResource\RelationManagers;
 use AlperenErsoy\FilamentExport\Actions\FilamentExportBulkAction;
-use AlperenErsoy\FilamentExport\FilamentExport;
 use App\Filament\Resources\QueryResource\RelationManagers\VendorRelationManager;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
 class QueryResource extends Resource
 {
@@ -126,7 +127,8 @@ class QueryResource extends Resource
                                 'inprocess' => 'In Process',
                                 'repaired' => 'Repaired',
                                 'deleivered' => 'Deleivered',
-                                'pending' => 'Send To Vendor'
+                                'pending' => 'Send To Vendor',
+                                'dead'  =>'Dead'
                             ])->required()
 
                             // ->disablePlaceholderSelection()
@@ -156,7 +158,7 @@ class QueryResource extends Resource
                                ->minDate(now())
                                ->maxDate(Carbon::now()->addDays(31))
                                ->requiredWith('status')
-                               ->visible(fn(Closure $get) => $get('status') == 'pending')
+                               ->visible(fn(Closure $get) => $get('status') == 'repaired')
 
                                ->hidden(fn() => !auth()->user()->hasRole('admin')),
 
@@ -204,8 +206,11 @@ class QueryResource extends Resource
                 TextColumn::make('send_to_dept')->dateTime()->searchable()->sortable()->label('Send to Department Date')
                 ->hidden(fn() => !auth()->user()->hasRole('admin')),
                 TextColumn::make('send_to_vendor')->dateTime()->searchable()->sortable()->label('Send to Vendor Date')
+
+
+
                 ->hidden(fn() => !auth()->user()->hasRole('admin')),
-                TextColumn::make('received_from_vendor')->dateTime()->searchable()->sortable()->label('Send to Vendor Date')
+                TextColumn::make('received_from_vendor')->dateTime()->searchable()->sortable()->label('Received from Vendor Date')
                 ->hidden(fn() => !auth()->user()->hasRole('admin')),
 
 
@@ -216,6 +221,7 @@ class QueryResource extends Resource
                         'warning' => 'inprocess',
                         'success' => 'deleivered',
                         'danger' => 'send_to_vendor',
+                        'danger'  =>'Dead'
                     ]),
 
                 TextColumn::make('vendor.company_name')->label('Vendor Name')
@@ -288,10 +294,10 @@ class QueryResource extends Resource
                  // ->modifyPdfWriter(fn (PdfWrapper $writer) => $writer->setPaper('a4', 'landscape'))
             ]);
     }
-//     public static function getTableQuery()
-// {
-//     return static::nameModel()::query()->where('role', '1');
-// }
+            //     public static function getTableQuery()
+            // {
+            //     return static::nameModel()::query()->where('role', '1');
+            // }
     public static function getRelations(): array
     {
         return [
@@ -313,71 +319,78 @@ class QueryResource extends Resource
     }
 
 
-//     protected function getTableRecordActionUsing(): ?Closure
-// {
-//     return fn (): Action => DeleteAction::make();
-// }
-    // public static function getEloquentQuery(): Builder   OK HAE
-    // {
-    //     return static::getModel()::query()->where('status', );
-    // }
-//     protected function getTableRecordActionUsing(): ?Closure
-// {
-//     return null;
-// }
-// public function fields()
-// {
-//     return [
-//         // ...
-//         Field::make('status')
-//             ->canSee(function ($request, $query) {
-//                 return $query->can('viewSensitiveField', $query);
-//             }),
-//     ];
-// }
+                //     protected function getTableRecordActionUsing(): ?Closure
+                // {
+                //     return fn (): Action => DeleteAction::make();
+                // }
+                    // public static function getEloquentQuery(): Builder   OK HAE
+                    // {
+                    //     return static::getModel()::query()->where('status', );
+                    // }
+                //     protected function getTableRecordActionUsing(): ?Closure
+                // {
+                //     return null;
+                // }
 
 
-//  public static function canDelete(Model $user):bool
+
+                //  public static function canDelete(Model $user):bool
 
 
-// {
+                // {
 
-//     return $user->roles->hasRole==1;
-// }
-
-
-// public static function canCreate(): bool
-// {
-
-//     return false;
-// }
-// public static function canEdit(Model $user): bool
-// {
+                //     return $user->roles->hasRole==1;
+                // }
 
 
-//     return true;
-//  }
+                // public static function canCreate(): bool
+                // {
+
+                //     return false;
+                // }
+                // public static function canEdit(Model $user): bool
+                // {
+
+
+                //     return true;
+                //  }
 
 
 
     public static function getNavigationBadge(): ?string
     {
         /*dd(self::getModel()::where('user_id', auth()->user()->id)->count());*/
-        if (auth()->id() === 1 || auth()->id() ===2){
-            return self::getModel()::count();
-        } else {
-            return self::getModel()::where('user_id', auth()->user()->id)->count();
+        $user = auth()->user();
+        $roles = $user->roles;
+        foreach ($roles as $role)
+        {
+             $roleName = $role->name;
+
+                if ($roleName === "admin")
+                {
+                    return self::getModel()::count();
+                } else {
+                    return self::getModel()::where('user_id', auth()->user()->id)->count();
+                }
+
         }
     }
 
-//     protected function getTableFiltersLayout(): ?string
-// {
-//     return Layout::BelowContent;
-// }
-public static function canDeleteAny(): bool // disable delete even delete in bulk actions
-{
-    return false;
-}
+        //     protected function getTableFiltersLayout(): ?string
+        // {
+        //     return Layout::BelowContent;
+        // }
+            // public static function canDeleteAny(): bool // disable delete even delete in bulk actions
+            // {
+            //     return false;
+            // }
 
+            // public static function getEloquentQuery(): Builder
+            // {
+            //     return parent::getEloquentQuery()
+            //         ->withoutGlobalScopes([
+            //             SoftDeletingScope::class,
+            //         ]);
+            // }
 }
 
